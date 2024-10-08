@@ -9,6 +9,7 @@ recognizers:
     supported_languages:
       - language: ru
     type: custom
+    supported_entity: ID_NUMBER   # Обязательно добавляем поле supported_entity
     patterns:
       - name: russian_passport_pattern
         regex: "\\d{4}\\s\\d{6}"  # Регулярное выражение для паспортов РФ
@@ -23,6 +24,7 @@ recognizers:
     supported_languages:
       - language: ru
     type: custom
+    supported_entity: PHONE_NUMBER  # Обязательно добавляем поле supported_entity
     patterns:
       - name: russian_phone_pattern
         regex: "\\+?[78][-(]?\\d{3}[-)]?\\d{3}[-]?\\d{2}[-]?\\d{2}"  # Регулярное выражение для номеров телефонов РФ
@@ -37,6 +39,7 @@ recognizers:
     supported_languages:
       - language: ru
     type: custom
+    supported_entity: ID_NUMBER   # Обязательно добавляем поле supported_entity
     patterns:
       - name: snils_pattern
         regex: "\\d{3}-\\d{3}-\\d{3}\\s\\d{2}"  # Регулярное выражение для СНИЛС
@@ -50,6 +53,7 @@ recognizers:
     supported_languages:
       - language: ru
     type: custom
+    supported_entity: ID_NUMBER  # Обязательно добавляем поле supported_entity
     patterns:
       - name: inn_pattern
         regex: "\\d{10}|\\d{12}"  # Регулярное выражение для ИНН
@@ -63,6 +67,7 @@ recognizers:
     supported_languages:
       - language: ru
     type: custom
+    supported_entity: ID_NUMBER  # Обязательно добавляем поле supported_entity
     patterns:
       - name: oms_pattern
         regex: "\\d{16}"  # Регулярное выражение для полиса ОМС
@@ -76,6 +81,7 @@ recognizers:
     supported_languages:
       - language: ru
     type: custom
+    supported_entity: ID_NUMBER  # Обязательно добавляем поле supported_entity
     patterns:
       - name: driver_license_pattern
         regex: "[А-Я]{2}\\d{6}"  # Пример регулярного выражения для российских водительских прав
@@ -90,9 +96,10 @@ recognizers:
     supported_languages:
       - language: ru
     type: custom
+    supported_entity: LOCATION  # Обязательно добавляем поле supported_entity
     patterns:
       - name: address_pattern
-        regex: "(ул\\.\\s|просп\\.\\s|пер\\.\\s|ш\\.\\s)?[А-Яа-я]+\\s\\d{1,3}[А-Яа-я]?\\s?(кв\\.|д\\.|стр\\.)?\\s?\\d{1,3}"  # Регулярное выражение для адресов
+        regex: "(ул\\.\\с|просп\\.\\с|пер\\.\\с|ш\\.\\с)?[А-Яа-я]+\\с\\d{1,3}[А-Яа-я]?\\с?(кв\\.|д\\.|стр\\.)?\\с?\\d{1,3}"  # Регулярное выражение для адресов
         score: 0.7
     context:
       - улица
@@ -107,12 +114,14 @@ recognizers:
     supported_languages:
       - language: ru
     type: predefined
+    supported_entity: EMAIL  # Добавляем явное указание сущности
 
   # Банковские реквизиты (номера карт, счета)
   - name: BankAccountRecognizer
     supported_languages:
       - language: ru
     type: custom
+    supported_entity: ID_NUMBER  # Обязательно добавляем поле supported_entity
     patterns:
       - name: bank_account_pattern
         regex: "\\d{20}"  # Регулярное выражение для банковских счетов
@@ -127,6 +136,7 @@ recognizers:
     supported_languages:
       - language: ru
     type: custom
+    supported_entity: MEDICAL  # Обязательно добавляем поле supported_entity
     patterns:
       - name: medical_data_pattern
         regex: "(диагноз|анализ|лечение|врач|болезнь)"  # Медицинские данные через ключевые слова
@@ -142,6 +152,7 @@ recognizers:
     supported_languages:
       - language: ru
     type: custom
+    supported_entity: FINANCE  # Обязательно добавляем поле supported_entity
     patterns:
       - name: income_data_pattern
         regex: "(доход|налог|зарплата|вычет)"  # Ключевые слова для данных о доходах и налогах
@@ -157,6 +168,7 @@ recognizers:
     supported_languages:
       - language: ru
     type: custom
+    supported_entity: ID_NUMBER  # Обязательно добавляем поле supported_entity
     patterns:
       - name: personal_identifier_pattern
         regex: "\\d{7,10}"  # Пример регулярного выражения для идентификационных номеров
@@ -175,150 +187,18 @@ recognizers:
       - language: es
         context: [tarjeta, credito, visa, mastercard, cc, amex, discover, jcb, diners, maestro, instapayment]
     type: predefined
+    supported_entity: CREDIT_CARD  # Добавляем явное указание сущности
 
   - name: UsBankRecognizer
     supported_languages: 
       - en
     type: predefined
+    supported_entity: BANK_ACCOUNT  # Добавляем явное указание сущности
 
   - name: UsLicenseRecognizer
     supported_languages: 
       - en
     type: predefined
+    supported_entity: DRIVER_LICENSE  # Добавляем явное указание сущности
 
-  - name: UsItinRecognizer
-    supported_languages: 
-      - en
-    type: predefined
-  
-  - name: UsPassportRecognizer
-    supported_languages: 
-      - en
-    type: predefined
-  
-  - name: UsSsnRecognizer
-    supported_languages: 
-      - en
-    type: predefined
-
-  - name: NhsRecognizer
-    supported_languages: 
-      - en
-    type: predefined
-
-  - name: UkNinoRecognizer
-    supported_languages:
-      - en
-    type: predefined
-
-  - name: SgFinRecognizer
-    supported_languages: 
-      - en
-    type: predefined
-
-  - name: AuAbnRecognizer
-    supported_languages: 
-      - en
-    type: predefined
-
-  - name: AuAcnRecognizer
-    supported_languages: 
-      - en
-    type: predefined
-
-  - name: AuTfnRecognizer
-    supported_languages: 
-      - en
-    type: predefined
-
-  - name: AuMedicareRecognizer
-    supported_languages: 
-      - en
-    type: predefined
-
-  - name: InPanRecognizer
-    supported_languages: 
-      - en
-    type: predefined
-
-  - name: InAadhaarRecognizer
-    supported_languages: 
-      - en
-    type: predefined
-
-  - name: InVehicleRegistrationRecognizer
-    supported_languages: 
-      - en
-    type: predefined
-
-  - name: InPassportRecognizer
-    supported_languages: 
-      - en
-    type: predefined
-
-  - name: EsNifRecognizer
-    supported_languages: 
-      - es
-    type: predefined
-
-  - name: EsNieRecognizer
-    supported_languages: 
-      - es
-    type: predefined
-
-  - name: ItDriverLicenseRecognizer
-    supported_languages: 
-      - it
-    type: predefined
-
-  - name: ItFiscalCodeRecognizer
-    supported_languages: 
-      - it
-    type: predefined
-
-  - name: ItVatCodeRecognizer
-    supported_languages: 
-      - it
-    type: predefined
-
-  - name: ItIdentityCardRecognizer
-    supported_languages: 
-      - it
-    type: predefined
-
-  - name: ItPassportRecognizer
-    supported_languages: 
-      - it
-    type: predefined
-
-  - name: PlPeselRecognizer
-    supported_languages: 
-      - pl
-    type: predefined
-
-  - name: CryptoRecognizer
-    type: predefined
-
-  - name: DateRecognizer
-    type: predefined
-
-  - name: EmailRecognizer
-    type: predefined
-
-  - name: IbanRecognizer
-    type: predefined
-
-  - name: IpRecognizer
-    type: predefined
-
-  - name: MedicalLicenseRecognizer
-    type: predefined
-
-  - name: PhoneRecognizer
-    type: predefined
-
-  - name: UrlRecognizer
-    type: predefined
-
-  - name: InVoterRecognizer
-    type: predefined
+  # Добавьте оставшиеся распознаватели
