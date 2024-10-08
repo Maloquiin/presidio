@@ -1,146 +1,299 @@
 supported_languages: 
   - en
+  - ru  # Добавляем поддержку русского языка
 global_regex_flags: 26
 
 recognizers:
-  # Recognizers listed here can either be loaded from the recognizers defined in code (type: predefined),
-  # or created based on the provided configuration (type: custom).
-  # For predefined:
-  # - If only a recognizer name is provided, a predefined recognizer with this name and default parameters will be loaded.
-  # - If a parameter isn't provided, the default one would be loaded.
-  # For custom:
-  # - See an example configuration here: https://github.com/microsoft/presidio/blob/main/presidio-analyzer/presidio_analyzer/conf/example_recognizers.yaml
-  # - Custom pattern recognizers with this configuration can be added to this file, with type: custom
-  #  For recognizers supporting more than one language, an instance of the recognizer for each language will be created.
-  # For example, see the CreditCardRecognizer definition below:
+  # Российский паспорт
+  - name: RussianPassportRecognizer
+    supported_languages:
+      - language: ru
+    type: custom
+    patterns:
+      - name: russian_passport_pattern
+        regex: "\\d{4}\\s\\d{6}"  # Регулярное выражение для паспортов РФ
+        score: 0.85
+    context:
+      - паспорт
+      - document
+      - удостоверение
+
+  # Номера телефонов
+  - name: RussianPhoneRecognizer
+    supported_languages:
+      - language: ru
+    type: custom
+    patterns:
+      - name: russian_phone_pattern
+        regex: "\\+?[78][-(]?\\d{3}[-)]?\\d{3}[-]?\\d{2}[-]?\\d{2}"  # Регулярное выражение для номеров телефонов РФ
+        score: 0.8
+    context:
+      - телефон
+      - номер
+      - contact
+
+  # СНИЛС (Страховой номер индивидуального лицевого счета)
+  - name: SnilsRecognizer
+    supported_languages:
+      - language: ru
+    type: custom
+    patterns:
+      - name: snils_pattern
+        regex: "\\d{3}-\\d{3}-\\d{3}\\s\\d{2}"  # Регулярное выражение для СНИЛС
+        score: 0.9
+    context:
+      - СНИЛС
+      - страхование
+
+  # ИНН (Индивидуальный номер налогоплательщика)
+  - name: InnRecognizer
+    supported_languages:
+      - language: ru
+    type: custom
+    patterns:
+      - name: inn_pattern
+        regex: "\\d{10}|\\d{12}"  # Регулярное выражение для ИНН
+        score: 0.85
+    context:
+      - ИНН
+      - налог
+
+  # Полис ОМС (Обязательное медицинское страхование)
+  - name: OmsRecognizer
+    supported_languages:
+      - language: ru
+    type: custom
+    patterns:
+      - name: oms_pattern
+        regex: "\\d{16}"  # Регулярное выражение для полиса ОМС
+        score: 0.85
+    context:
+      - ОМС
+      - страхование
+
+  # Водительское удостоверение
+  - name: DriverLicenseRecognizer
+    supported_languages:
+      - language: ru
+    type: custom
+    patterns:
+      - name: driver_license_pattern
+        regex: "[А-Я]{2}\\d{6}"  # Пример регулярного выражения для российских водительских прав
+        score: 0.85
+    context:
+      - водительское
+      - удостоверение
+      - права
+
+  # Адреса проживания
+  - name: AddressRecognizer
+    supported_languages:
+      - language: ru
+    type: custom
+    patterns:
+      - name: address_pattern
+        regex: "(ул\\.\\s|просп\\.\\s|пер\\.\\s|ш\\.\\s)?[А-Яа-я]+\\s\\d{1,3}[А-Яа-я]?\\s?(кв\\.|д\\.|стр\\.)?\\s?\\d{1,3}"  # Регулярное выражение для адресов
+        score: 0.7
+    context:
+      - улица
+      - дом
+      - адрес
+      - проспект
+      - переулок
+      - квартира
+
+  # Электронные почты
+  - name: EmailRecognizer
+    supported_languages:
+      - language: ru
+    type: predefined
+
+  # Банковские реквизиты (номера карт, счета)
+  - name: BankAccountRecognizer
+    supported_languages:
+      - language: ru
+    type: custom
+    patterns:
+      - name: bank_account_pattern
+        regex: "\\d{20}"  # Регулярное выражение для банковских счетов
+        score: 0.9
+    context:
+      - банк
+      - счёт
+      - карта
+
+  # Медицинские данные
+  - name: MedicalDataRecognizer
+    supported_languages:
+      - language: ru
+    type: custom
+    patterns:
+      - name: medical_data_pattern
+        regex: "(диагноз|анализ|лечение|врач|болезнь)"  # Медицинские данные через ключевые слова
+        score: 0.85
+    context:
+      - диагноз
+      - лечение
+      - медицинский
+      - врач
+
+  # Данные о доходах и налогах
+  - name: IncomeDataRecognizer
+    supported_languages:
+      - language: ru
+    type: custom
+    patterns:
+      - name: income_data_pattern
+        regex: "(доход|налог|зарплата|вычет)"  # Ключевые слова для данных о доходах и налогах
+        score: 0.8
+    context:
+      - доход
+      - зарплата
+      - налог
+      - вычет
+
+  # Персональные идентификаторы (например, номера трудовой книжки)
+  - name: PersonalIdentifierRecognizer
+    supported_languages:
+      - language: ru
+    type: custom
+    patterns:
+      - name: personal_identifier_pattern
+        regex: "\\d{7,10}"  # Пример регулярного выражения для идентификационных номеров
+        score: 0.85
+    context:
+      - идентификатор
+      - номер
+      - книжка
+      - трудовая
+
+  # Существующие распознаватели
   - name: CreditCardRecognizer
     supported_languages:
-    - language: en
-      context: [credit, card, visa, mastercard, cc, amex, discover, jcb, diners, maestro, instapayment]
-    - language: es
-      context: [tarjeta, credito, visa, mastercard, cc, amex, discover, jcb, diners, maestro, instapayment]
-    - language: it
-    - language: pl
+      - language: en
+        context: [credit, card, visa, mastercard, cc, amex, discover, jcb, diners, maestro, instapayment]
+      - language: es
+        context: [tarjeta, credito, visa, mastercard, cc, amex, discover, jcb, diners, maestro, instapayment]
     type: predefined
 
   - name: UsBankRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
 
   - name: UsLicenseRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
 
   - name: UsItinRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
   
   - name: UsPassportRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
   
   - name: UsSsnRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
 
   - name: NhsRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
 
   - name: UkNinoRecognizer
     supported_languages:
-    - en
+      - en
     type: predefined
 
   - name: SgFinRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
 
   - name: AuAbnRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
 
   - name: AuAcnRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
 
   - name: AuTfnRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
 
   - name: AuMedicareRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
 
   - name: InPanRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
 
   - name: InAadhaarRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
 
   - name: InVehicleRegistrationRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
 
   - name: InPassportRecognizer
     supported_languages: 
-    - en
+      - en
     type: predefined
 
   - name: EsNifRecognizer
     supported_languages: 
-    - es
+      - es
     type: predefined
 
   - name: EsNieRecognizer
     supported_languages: 
-    - es
+      - es
     type: predefined
 
   - name: ItDriverLicenseRecognizer
     supported_languages: 
-    - it
+      - it
     type: predefined
 
   - name: ItFiscalCodeRecognizer
     supported_languages: 
-    - it
+      - it
     type: predefined
 
   - name: ItVatCodeRecognizer
     supported_languages: 
-    - it
+      - it
     type: predefined
 
   - name: ItIdentityCardRecognizer
     supported_languages: 
-    - it
+      - it
     type: predefined
 
   - name: ItPassportRecognizer
     supported_languages: 
-    - it
+      - it
     type: predefined
 
   - name: PlPeselRecognizer
     supported_languages: 
-    - pl
+      - pl
     type: predefined
 
   - name: CryptoRecognizer
