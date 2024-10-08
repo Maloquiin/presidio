@@ -1,8 +1,9 @@
 nlp_engine_name: spacy
 models:
-  -
-    lang_code: en
-    model_name: en_core_web_lg
+  - lang_code: en
+    model_name: en_core_web_sm
+  - lang_code: ru
+    model_name: ru_core_news_lg
 
 ner_model_configuration:
   model_to_presidio_entity_mapping:
@@ -18,11 +19,25 @@ ner_model_configuration:
     DATE: DATE_TIME
     TIME: DATE_TIME
 
+    # Дополнительные маппинги для русского языка
+    ID_NUMBER: ID_NUMBER      # Паспорт РФ
+    PHONE_NUMBER: PHONE_NUMBER # Номера телефонов
+    SNILS: ID_NUMBER          # СНИЛС
+    INN: ID_NUMBER            # ИНН
+    OMC: ID_NUMBER            # Полис ОМС
+    DRIVER_LICENSE: ID_NUMBER # Водительское удостоверение
+    ADDRESS: LOCATION         # Адрес проживания
+    EMAIL_ADDRESS: EMAIL      # Электронные почты
+    BANK_ACCOUNT: ID_NUMBER   # Банковские реквизиты
+    MEDICAL_DATA: MEDICAL     # Медицинские данные
+    INCOME_DATA: FINANCE      # Данные о доходах и налогах
+    PERSONAL_IDENTIFIER: ID_NUMBER  # Персональные идентификаторы (например, номера трудовой книжки)
+
   low_confidence_score_multiplier: 0.4
   low_score_entity_names:
-  -
+  - 
   labels_to_ignore:
-  - ORGANIZATION # Has many false positives
+  - ORGANIZATION  # Many false positives
   - CARDINAL
   - EVENT
   - LANGUAGE
@@ -33,3 +48,5 @@ ner_model_configuration:
   - PRODUCT
   - QUANTITY
   - WORK_OF_ART
+  - LOC  # Много ложных срабатываний в русском языке
+  - NORP
