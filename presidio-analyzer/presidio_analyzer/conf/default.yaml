@@ -19,19 +19,15 @@ ner_model_configuration:
     DATE: DATE_TIME
     TIME: DATE_TIME
 
-    # Дополнительные маппинги для русского языка
-    ID_NUMBER: ID_NUMBER      # Паспорт РФ
-    PHONE_NUMBER: PHONE_NUMBER # Номера телефонов
-    SNILS: ID_NUMBER          # СНИЛС
-    INN: ID_NUMBER            # ИНН
-    OMC: ID_NUMBER            # Полис ОМС
-    DRIVER_LICENSE: ID_NUMBER # Водительское удостоверение
-    ADDRESS: LOCATION         # Адрес проживания
-    EMAIL_ADDRESS: EMAIL      # Электронные почты
-    BANK_ACCOUNT: ID_NUMBER   # Банковские реквизиты
-    MEDICAL_DATA: MEDICAL     # Медицинские данные
-    INCOME_DATA: FINANCE      # Данные о доходах и налогах
-    PERSONAL_IDENTIFIER: ID_NUMBER  # Персональные идентификаторы (например, номера трудовой книжки)
+    # Добавляем маппинг для кастомных распознавателей из файла default_recognizers.yaml
+    ID_NUMBER: ID_NUMBER         # Паспорт, СНИЛС, ИНН, водительское удостоверение и т.д.
+    PHONE_NUMBER: PHONE_NUMBER   # Номера телефонов
+    EMAIL: EMAIL_ADDRESS         # Электронные почты
+    LOCATION: ADDRESS            # Адреса проживания
+    CREDIT_CARD: CREDIT_CARD     # Кредитные карты
+    BANK_ACCOUNT: BANK_ACCOUNT   # Банковские реквизиты
+    MEDICAL: MEDICAL_DATA        # Медицинские данные
+    FINANCE: INCOME_DATA         # Данные о доходах и налогах
 
   low_confidence_score_multiplier: 0.4
   low_score_entity_names:
